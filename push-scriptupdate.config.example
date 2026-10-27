@@ -1,0 +1,51 @@
+#===============================================================================
+# push-scriptupdate.config - configuration for push-scriptupdate.sh
+# Setup:  cp push-scriptupdate.config.example push-scriptupdate.config, edit with
+#         vi, chmod 660.
+# Syntax: sourced by bash (it is code): KEY="value", no spaces around the "=".
+#         ${SCRIPT_DIR} and ${SCRIPT_NAME} can be used in values.
+# No secrets here. The file stays on the development PC and is never committed.
+#===============================================================================
+
+# Config format version. Must match the script, otherwise it aborts (exit code 3).
+# Do not change by hand; adjust it only after following the release notes.
+CONFIG_VERSION="1"
+
+#===============================================================================
+# 1. REQUIRED - set these for every project
+#===============================================================================
+
+# GITHUB_ORG: GitHub organisation that holds all script repos (public).
+# Format: organisation name. Example: "it-flows-de"
+GITHUB_ORG="it-flows-de"
+
+#===============================================================================
+# 2. OPTIONAL - empty means "not used"
+#===============================================================================
+
+# CUSTOMER_PATTERNS: bash array of words that must never appear in repo files
+# (customer names, host names, IPs). The files are searched case-insensitively
+# before every release. Empty array = check skipped.
+# Format: ("word1" "word2"). Example: ("customer-a" "srv-customer-b" "192.0.2.10")
+CUSTOMER_PATTERNS=()
+
+#===============================================================================
+# 3. DEFAULTS - change only in individual cases
+#===============================================================================
+
+# DEFAULT_BRANCH: branch used for new repos and expected for existing ones.
+# If the local branch or the GitHub default branch of an existing repo differs,
+# the script shows the branches on GitHub and asks which one to use. Default: "main"
+DEFAULT_BRANCH="main"
+
+# REMOTE_URL_TEMPLATE: SSH remote of a script repo, %s is replaced by the script
+# name. Default: "git@github.com:${GITHUB_ORG}/%s.git"
+REMOTE_URL_TEMPLATE="git@github.com:${GITHUB_ORG}/%s.git"
+
+# MIN_GIT_VERSION: minimum git version (SSH signatures need 2.34). Default: "2.34"
+MIN_GIT_VERSION="2.34"
+
+# COMMIT_MAIL_DOMAIN: the git commit mail must end with @<this value>, because
+# the mail is public in the history. Empty = check skipped.
+# Default: "users.noreply.github.com"
+COMMIT_MAIL_DOMAIN="users.noreply.github.com"
